@@ -59,22 +59,16 @@
       <div>user E-mail : ${naverLogin.user.email}</div>
       `;
 
-      const button_area=document.getElementById('button_area');
-      button_area.innerHTML="<button id='btn_logout'>로그아웃</button>";
+      const button_area = document.getElementById('button_area');
+button_area.innerHTML = "<button id='btn_logout'>로그아웃</button>";
 
-      const logout=document.getElementById('btn_logout');
-      logout.addEventListener('click', (e) => {
-  e.preventDefault(); // 기본 이벤트 동작 방지
-  
-  // HTTP GET 요청을 통해 네이버 로그아웃 페이지 호출
-  const xhr = new XMLHttpRequest();
-  xhr.open('GET', 'http://nid.naver.com/nidlogin.logout');
-  xhr.send();
-  
-  // 페이지 이동
-  window.location.href = 'https://han-is.github.io/HYDUO/signin/signin.html';
+const logout = document.getElementById('btn_logout');
+logout.addEventListener('click', (e) => {
+  window.location.href = "http://nid.naver.com/nidlogin.logout";
+  setTimeout(() => {
+    window.location.replace("https://han-is.github.io/HYDUO/signin/signin.html");
+  }, 500); // wait for 500ms before redirecting to signin page
 });
-    }
 
 
   </script>
