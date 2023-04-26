@@ -29,6 +29,20 @@
             });
         }
 
+        function kakaoLogout(kakaoKey) {
+            Kakao.init(kakaoKey); // 초기화
+            Kakao.isInitialized();
+
+            if (!Kakao.Auth.getAccessToken()) { // 토큰이 있는지 확인 (토큰 가져와보기)
+                console.log('Not logged in.');
+                return;
+            }
+
+            Kakao.Auth.logout(function() { // 카카오 로그아웃
+                console.log(Kakao.Auth.getAccessToken());
+            });
+  };
+
     </script>
 </body>
 </html>
