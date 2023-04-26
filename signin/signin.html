@@ -20,14 +20,13 @@
   <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
   <script type="text/javascript">
 
-  const naverLogin = new naver.LoginWithNaverId(
-   {
-    clientId: "lD1fIgQrsomxYodQBUOb",
-    callbackUrl: "https://han-is.github.io/HYDUO/signin/signin.html",
-    loginButton: {color: "green", type: 2, height: 40}
-    }
-   );
-
+    const naverLogin = new naver.LoginWithNaverId(
+     {
+      clientId: "lD1fIgQrsomxYodQBUOb",
+      callbackUrl: "https://han-is.github.io/HYDUO/signin/signin.html",
+      loginButton: {color: "green", type: 2, height: 40}
+     }
+    );
 
     naverLogin.init();
     naverLogin.getLoginStatus(function (status) {
@@ -41,35 +40,39 @@
             alert("별명이 필요합니다. 정보제공을 동의해주세요.");
             naverLogin.reprompt();
             return ;  
-         }else{
+         } else {
           setLoginStatus();
          }
-    }
+      }
     });
-    console.log(naverLogin);
 
     function setLoginStatus(){
 
       const message_area=document.getElementById('message');
       message_area.innerHTML=`
-      <h3> Login 성공 </h3>
-      <div>user Nickname : ${naverLogin.user.nickname}</div>
-      <div>user Age(범위) : ${naverLogin.user.age}</div>
-      <div>user Birthday : ${naverLogin.user.birthday}</div>
-      <div>user E-mail : ${naverLogin.user.email}</div>
+        <h3> Login 성공 </h3>
+        <div>user Nickname : ${naverLogin.user.nickname}</div>
+        <div>user Age(범위) : ${naverLogin.user.age}</div>
+        <div>user Birthday : ${naverLogin.user.birthday}</div>
+        <div>user E-mail : ${naverLogin.user.email}</div>
       `;
 
-      const button_area = document.getElementById('button_area');
-button_area.innerHTML = "<button id='btn_logout'>로그아웃</button>";
+      const button_area=document.getElementById('button_area');
+      button_area.innerHTML="<button id='btn_logout'>로그아웃</button>";
 
-const logout = document.getElementById('btn_logout');
-logout.addEventListener('click', (e) => {
-  window.location.href = "http://nid.naver.com/nidlogin.logout";
-  setTimeout(() => {
-    window.location.replace("https://han-is.github.io/HYDUO/signin/signin.html");
-  }, 500); // wait for 500ms before redirecting to signin page
-});
+      const logout=document.getElementById('btn_logout');
+      logout.addEventListener('click', function(e) {
+        naverLogin.logout();
 
+        const popup = window.open("https://nid.naver.com/nidlogin.logout", "naver_logout_popup", "width=800, height=600");
+        const timer = setInterval(function() {
+          if(popup.closed) {
+            clearInterval(timer);
+            window.location.href = "https://han-is.github.io/HYDUO/signin/signin.html";
+          }
+        }, 100);
+      });
+    }
 
   </script>
 </html>
