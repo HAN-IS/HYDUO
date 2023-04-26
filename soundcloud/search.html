@@ -15,10 +15,10 @@
 
 </script><script src = "https://code.jquery.com/jquery-3.0.0.js"></script>
 <script type="text/javascript">
-
+    //검색함수
 function searchYoutube(){
     let apikey = "AIzaSyDxCAA88SmoHvVlQdu3Wj6Jws7uSDglrQA"
-    let keyword = document.getElementById('searchtext').value;
+    let keyword = document.getElementById('searchtext').value; //검색어 id가 serachtext인 input에서 가져오기
 
     $.ajax({
         url         : 'https://www.googleapis.com/youtube/v3/search',
@@ -32,7 +32,7 @@ function searchYoutube(){
                 videoId = item.id.videoId;
                 title = item.snippet.title;
                 console.log(title);
-                $('#searchReasults').append('<div>'+item.snippet.title+'</div>');
+                $('#searchReasults').append('<div>'+item.snippet.title+'</div>'); //검색결과 표시하기
                 
             })
             }
