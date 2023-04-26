@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+  
+<body>
+<div id = "searchBox">
+   <input id = 'searchtext'><button onclick = "searchYoutube()">Search</button>
+   <div id = 'searchReasults'></div>
+</div>
+
+</script><script src = "https://code.jquery.com/jquery-3.0.0.js"></script>
+<script type="text/javascript">
+
+function searchYoutube(){
+    let apikey = "AIzaSyDxCAA88SmoHvVlQdu3Wj6Jws7uSDglrQA"
+    let keyword = document.getElementById('searchtext').value;
+
+    $.ajax({
+        url         : 'https://www.googleapis.com/youtube/v3/search',
+        type        : 'get',
+        dataType    : 'json',
+        data        : {part : 'snippet', key : apikey, q : keyword, maxReasults : 5, type : 'video', videoEmbeddable : 'true'},
+        success     : function(data){
+            console.log(data);
+            $.each(data.items, function(i, item){
+                thumbnail = item.snippet.thumbnails.medium.url;
+                videoId = item.id.videoId;
+                title = item.snippet.title;
+                console.log(title);
+                $('#searchReasults').append('<div>'+item.snippet.title+'</div>');
+                
+            })
+            }
+    })
+
+
+    function v_link(videoId){
+        location.href = 'https://www.youtube.com/watch?v='+vdieoId;
+    }
+
+    
+}
+</script>  
+</body>
+</html>
+
+
+
+
