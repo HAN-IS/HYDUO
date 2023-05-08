@@ -10,7 +10,11 @@
 
 # 5.09
 인기음악 10개의 제목, 조회수, 좋아요를 가져오는 파이썬 코드를 업로드함. 인기음악 폴더.
+
 키 부분은 H의 키라서 H의 할당량이 쓰일거임 '^')b
+
 사용하려면 cmd에 
+
 pip install google-auth , pip install google-api-python-client
+
 두개의 모듈을 설치해야 돌아감.
