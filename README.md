@@ -18,3 +18,6 @@
 pip install google-auth , pip install google-api-python-client
 
 두개의 모듈을 설치해야 돌아감.
+
+# 5.10
+인기음악 코드를 수정해서 동영상 id도 나오게 만듦.
