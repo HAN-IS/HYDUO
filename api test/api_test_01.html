@@ -1,47 +1,83 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Popular Music Videos</title>
-  </head>
-  <body>
-    <ul id="videos-list"></ul>
-    <script src="https://apis.google.com/js/api.js"></script>
-    <script>
+<head>
+  <title>Popular Music Videos in Korea</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <h1>Popular Music Videos in Korea</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Views</th>
+        <th>Likes</th>
+        <th>Video ID</th>
+      </tr>
+    </thead>
+    <tbody id="video-list">
+    </tbody>
+  </table>
+  <script src="https://apis.google.com/js/api.js"></script>
+  <script>
+    function start() {
       // 유튜브 API 인증 정보
       const api_key = "AIzaSyB1WN1jdwOXiZmLoyUjbJgVK7coF8ULlVo";
-        // 클라이언트 라이브러리 로드
-  gapi.load('client', () => {
-    gapi.client.init({
-      'apiKey': api_key,
-      'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest'],
-    }).then(() => {
-      // 인기 음악 동영상 정보 가져오기
-      return gapi.client.youtube.videos.list({
-        part: 'snippet,statistics',
-        chart: 'mostPopular',
-        regionCode: 'KR',
-        videoCategoryId: 10, // 10번 카테고리는 음악 카테고리입니다.
-        maxResults: 10,
+
+      // 유튜브 API 클라이언트 생성
+      gapi.client.init({
+        'apiKey': api_key,
+        'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest'],
+      }).then(function() {
+        // 인기 음악 동영상 정보 가져오기
+        return gapi.client.youtube.videos.list({
+          part: 'snippet,statistics',
+          chart: 'mostPopular',
+          regionCode: 'KR',
+          videoCategoryId: 10, // 10번 카테고리는 음악 카테고리입니다.
+          maxResults: 10,
+        });
+      }).then(function(response) {
+        const items = response.result.items;
+        const videoList = document.getElementById('video-list');
+        for (let i = 0; i < items.length; i++) {
+          const item = items[i];
+          const title = item.snippet.title;
+          const views = item.statistics.viewCount;
+          const likes = item.statistics.likeCount || 0;
+          const videoId = item.id.split('/').pop();
+          const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
+
+          // Create a row for each video
+          const row = document.createElement('tr');
+          videoList.appendChild(row);
+
+          // Add title column
+          const titleCell = document.createElement('td');
+          titleCell.innerText = title;
+          row.appendChild(titleCell);
+
+          // Add views column
+          const viewsCell = document.createElement('td');
+          viewsCell.innerText = views;
+          row.appendChild(viewsCell);
+
+          // Add likes column
+          const likesCell = document.createElement('td');
+          likesCell.innerText = likes;
+          row.appendChild(likesCell);
+
+          // Add video ID column
+          const idCell = document.createElement('td');
+          idCell.innerText = videoId;
+          row.appendChild(idCell);
+        }
+      }).catch(function(error) {
+        console.error(error);
       });
-    }).then(response => {
-      const items = response.result.items;
-      const videosList = document.getElementById('videos-list');
-      for (let i = 0; i < items.length; i++) {
-        const item = items[i];
-        const title = item.snippet.title;
-        const views = item.statistics.viewCount;
-        const likes = item.statistics.likeCount || 0;
-        const videoId = item.id.split('/').pop();
-        const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
-        const listItem = document.createElement('li');
-        listItem.innerHTML = `<a href="${videoUrl}" target="_blank">${title}</a> - Views: ${views}, Likes: ${likes}`;
-        videosList.appendChild(listItem);
-      }
-    }).catch(error => {
-      console.error(error);
-    });
-  });
-</script>
+    }
+    gapi.load('client', start);
+  </script>
 </body>
 </html>
