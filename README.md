@@ -21,3 +21,6 @@ pip install google-auth , pip install google-api-python-client
 
 # 5.10
 인기음악 코드를 수정해서 동영상 id도 나오게 만듦.
+
+# 6.1
+인기음악 폴더에 css파일 적용시키고 코드 조금 수정한 파일 업로드함.
