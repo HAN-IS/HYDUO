@@ -30,46 +30,47 @@
 
 
     naverLogin.init();
-naverLogin.getLoginStatus(function (status) {
-  if (status) {
-    const nickName = naverLogin.user.getNickName();
-    const age = naverLogin.user.getAge();
-    const gender = naverLogin.user.getGender();
-    const email = naverLogin.user.getEmail();
-
-    if (nickName === null || nickName === undefined) {
-      alert("별명이 필요합니다. 정보제공을 동의해주세요.");
-      naverLogin.reprompt();
-      return;
-    } else {
-      setLoginStatus(nickName, age, gender, email);
+    naverLogin.getLoginStatus(function (status) {
+      if (status) {
+          const nickName=naverLogin.user.getNickName();
+          const age=naverLogin.user.getAge();
+          const birthday=naverLogin.user.getBirthday();
+          const email=naverLogin.user.getEmail();
+ 
+          if(nickName===null||nickName===undefined ){
+            alert("별명이 필요합니다. 정보제공을 동의해주세요.");
+            naverLogin.reprompt();
+            return ;  
+         }else{
+          setLoginStatus();
+         }
     }
-  }
-});
+    });
+    console.log(naverLogin);
 
-function setLoginStatus(nickName, age, gender, email) {
-  const message_area = document.getElementById('message');
-  message_area.innerHTML = `
+    function setLoginStatus(){
+
+      const message_area=document.getElementById('message');
+      message_area.innerHTML=`
       <h3> Login 성공 </h3>
-      <div>user Nickname : ${nickName}</div>
-      <div>user Age(범위) : ${age}</div>
-      <div>user Gender : ${gender}</div>
-      <div>user E-mail : ${email}</div>
+      <div>user Nickname : ${naverLogin.user.nickname}</div>
+      <div>user Age(범위) : ${naverLogin.user.age}</div>
+      <div>user Birthday : ${naverLogin.user.birthday}</div>
+      <div>user E-mail : ${naverLogin.user.email}</div>
       `;
-}
 
       const button_area=document.getElementById('button_area');
       button_area.innerHTML="<button id='btn_logout'>로그아웃</button>";
 
       const logout=document.getElementById('btn_logout');
-logout.addEventListener('click',(e)=>{
-  naverLogin.logout();
-  const popup = window.open('http://nid.naver.com/nidlogin.logout', 'naverLogoutPopup', 'width=1,height=1');
-  setTimeout(function() {
-    popup.close();
-    location.replace("https://han-is.github.io/HYDUO/signin/signin.html");
-  }, 100);
-})
+      logout.addEventListener('click',(e)=>{
+        naverLogin.logout();
+        window.open('http://nid.naver.com/nidlogin.logout', 'naverLogoutPopup', 'titlebar=0, resizable=1, scrollbars=1, width=0, height=0, top=0, left=0');
+        setTimeout(function() {
+          window.close();
+          location.replace("https://han-is.github.io/HYDUO/signin/signin.html");
+        }, 500);
+      })
     }
 
 
